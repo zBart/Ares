@@ -256,7 +256,14 @@ namespace Ares.Editor.Controls
             IList<IContainerElement> containerElements = ElementsContainer.GetGeneralElements();
             foreach (DataGridViewRow row in Grid.Rows)
             {
-                remaining.Add(containerElements[GetElementIndex(row)]);
+                int index = GetElementIndex(row);
+
+                if (index >= containerElements.Count)
+                {
+                    index = containerElements.Count - 1;
+                }
+
+                remaining.Add(containerElements[index]);
             }
             List<IElement> elements = (new List<IElement>(containerElements)).Except(remaining).ToList();
             Actions.Actions.Instance.AddNew(new Actions.RemoveContainerElementsAction(mMassOperationControl, ElementsContainer, elements,

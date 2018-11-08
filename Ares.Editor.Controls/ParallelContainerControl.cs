@@ -51,7 +51,15 @@ namespace Ares.Editor.Controls
             {
                 if (m_Container.GetElements().Count > 0 && elementsGrid.CurrentRow != null)
                 {
-                    return m_Container.GetElements()[GetElementIndex(elementsGrid.CurrentRow)];
+                    int targetIndex = GetElementIndex(elementsGrid.CurrentRow);
+                    IList<IParallelElement> elements = m_Container.GetElements();
+
+                    if (targetIndex >= elements.Count)
+                    {
+                        return null;
+                    }
+
+                    return elements[targetIndex];
                 }
                 else
                 {

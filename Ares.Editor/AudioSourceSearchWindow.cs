@@ -100,15 +100,20 @@ namespace Ares.Editor.AudioSourceSearch
 
             // Initialize the component
             InitializeComponent();
-
-            // Populate the audio sources combo box
-            foreach (IAudioSource audioSource in this.m_AudioSources)
+            
+            if (this.m_AudioSources.Count > 0)
             {
-                this.audioSourceComboBox.Items.Add(audioSource.Name);
+                // Populate the audio sources combo box
+                foreach (IAudioSource audioSource in this.m_AudioSources)
+                {
+                    this.audioSourceComboBox.Items.Add(audioSource.Name);
+                }
+
+                // Initially selected the first available audio source    
+                this.audioSourceComboBox.SelectedIndex = 0;
+
+                this.m_selectedAudioSource = m_AudioSources.ElementAt(0);
             }
-            // Initially selected the first available audio source
-            this.audioSourceComboBox.SelectedIndex = 0;
-            this.m_selectedAudioSource = m_AudioSources.ElementAt(0);
 
             // Setup window title & icon
             this.Text = String.Format(StringResources.AudioSourceSearchTitle);
