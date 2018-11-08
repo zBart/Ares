@@ -207,7 +207,7 @@ namespace Ares.Playing
                 m_Stopped = true;
                 copy.AddRange(m_CurrentFiles);
             }
-            copy.ForEach(handle => PlayingModule.FilePlayer.StopFile(handle));
+            copy.ForEach(handle => PlayingModule.FilePlayer.StopFile(handle, true, 500, false));
             m_StoppedEvent.Set();
             Monitor.Enter(syncObject);
             m_CurrentFiles.Clear();
