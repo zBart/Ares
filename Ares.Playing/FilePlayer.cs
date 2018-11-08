@@ -208,8 +208,11 @@ namespace Ares.Playing
                     }
                     else
                     {
-                        // Default: set the "end" sync to the end of the stream
-                        sync = Bass.BASS_ChannelSetSync(channel, BASSSync.BASS_SYNC_END, 0, m_EndSync, IntPtr.Zero);
+                        long totalLength = Bass.BASS_ChannelGetLength(channel);
+                        long endingTime = Bass.BASS_ChannelSeconds2Bytes(channel, 0.1);
+
+                        // Default: set the "end" sync to the end of the stream, minus one ms
+                        sync = Bass.BASS_ChannelSetSync(channel, BASSSync.BASS_SYNC_POS, totalLength - endingTime, m_StartNextSync, IntPtr.Zero);
                     }
 
                     if (sync == 0)
@@ -764,6 +767,7 @@ namespace Ares.Playing
             m_FadeOutSync = new SYNCPROC(FadeOutSync);
             m_LoopSync = new SYNCPROC(LoopSync);
             m_StopSync = new SYNCPROC(StopSync);
+            m_StartNextSync = new SYNCPROC(StartNextSync);
             m_RunningFiles = new Dictionary<int, RunningFileInfo>();
 #if MONO
             m_GCHandles = new Dictionary<int, System.Runtime.InteropServices.GCHandle>();
@@ -841,6 +845,11 @@ namespace Ares.Playing
             {
                 CallEndAction(channel);
             }
+        }
+
+        private void StartNextSync(int handle, int channel, int data, IntPtr user)
+        {
+            CallEndAction(channel);
         }
 
         private void LoopSync(int handle, int channel, int data, IntPtr user)
@@ -941,6 +950,7 @@ namespace Ares.Playing
         private SYNCPROC m_LoopSync;
         private SYNCPROC m_StopSync;
         private SYNCPROC m_CueOutSync;
+        private SYNCPROC m_StartNextSync;
 
         private class RunningFileInfo
         {
