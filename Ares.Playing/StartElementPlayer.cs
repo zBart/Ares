@@ -361,10 +361,7 @@ namespace Ares.Playing
             set
             {
                 m_IsPlaying = value;
-                if (m_Mode.IsEndless())
-                {
-                    m_Mode.IsPlaying = value;
-                }
+                m_Mode.IsPlaying = value;
             }
         }
 

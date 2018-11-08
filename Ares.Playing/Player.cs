@@ -1262,7 +1262,7 @@ namespace Ares.Playing
         {
             if (element == null)
                 return false;
-            if (element.IsEndless() && element.IsPlaying)
+            if (element.IsPlaying)
             {
                 StopElement(element);
             }
