@@ -1195,17 +1195,17 @@ namespace Ares.Editor
         {
             if (SelectedNode != null)
             {
-                if (SelectedNode.Tag is IMode)
+                if (SelectedNode.Tag is IModeElement && GetElement(SelectedNode) is IBackgroundSounds)
                 {
-                    SelectModeKey();
+                    EditModeElementTrigger();
                 }
-                else if (SelectedNode.Tag is IModeElement && GetElement(SelectedNode) is IBackgroundSounds)
-                {
-                    SelectModeElementKey();
-                }
-                else if (SelectedNode.Tag is IElement)
+                else  if (SelectedNode.Tag is IElement)
                 {
                     EditElement(SelectedNode.Tag as IElement);
+                }
+                else if (SelectedNode.Tag is IMode)
+                {
+                    SelectModeKey();
                 }
             }
         }
