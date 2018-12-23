@@ -1,14 +1,14 @@
-﻿@inherits ViewPage<ControlResponse>
+﻿@inherits ServiceStack.Razor.ViewPage<Ares.Players.Web.ControlResponse>
 
 <div class="control">
 
     <h4>Control</h4>
 
     <p>
-        <img src="/Images/stop.png" onmousedown="switchImg(this, '/Images/stop_pressed.png')" onmouseup="switchImg(this, '/Images/stop.png')" class="stopButton" onclick="stopAll()" alt="Stop" />
-        <img src="/Images/back.png" onmousedown="switchImg(this, '/Images/back_pressed.png')" onmouseup="switchImg(this, '/Images/back.png')" class="backButton" onclick="back()" alt="Back" />
-        <img src="/Images/forward.png" onmousedown="switchImg(this, '/Images/forward_pressed.png')" onmouseup="switchImg(this, '/Images/forward.png')" class="forwardButton" onclick="forward()" alt="Forward" />
-        <img src="/Images/repeat_off.png" onmousedown="switchImg(this, '/Images/repeat_pressed.png')" onmouseup="switchImg(this, '/Images/repeat_off.png')" class="repeatButtonUnchecked" onclick="repeatOn()" alt="Repeat (off)" id="repeatButton" />
+        <img src="/web/image/stop.png" onmousedown="switchImg(this, '/web/image/stop_pressed.png')" onmouseup="switchImg(this, '/web/image/stop.png')" class="stopButton" onclick="stopAll()" alt="Stop" />
+        <img src="/web/image/back.png" onmousedown="switchImg(this, '/web/image/back_pressed.png')" onmouseup="switchImg(this, '/web/image/back.png')" class="backButton" onclick="back()" alt="Back" />
+        <img src="/web/image/forward.png" onmousedown="switchImg(this, '/web/image/forward_pressed.png')" onmouseup="switchImg(this, '/web/image/forward.png')" class="forwardButton" onclick="forward()" alt="Forward" />
+        <img src="/web/image/repeat_off.png" onmousedown="switchImg(this, '/web/image/repeat_pressed.png')" onmouseup="switchImg(this, '/web/image/repeat_off.png')" class="repeatButtonUnchecked" onclick="repeatOn()" alt="Repeat (off)" id="repeatButton" />
     </p>
 
     <h4>Volume</h4>
@@ -22,7 +22,7 @@
     <h4>State</h4>
 
     <table class="stateTable">
-        <tr><td class="row-header">Loaded Project:</td> <td id="loadedProject"></td><td><img src="/Images/open.png" onmousedown="switchImg(this, '/Images/open_pressed.png')" onmouseup="switchImg(this, '/Images/open.png')" class="openProjectButton" onclick="getProjects()" alt="Select Project" /></td></tr>
+        <tr><td class="row-header">Loaded Project:</td> <td id="loadedProject"></td><td><img src="/web/image/open.png" onmousedown="switchImg(this, '/web/image/open_pressed.png')" onmouseup="switchImg(this, '/web/image/open.png')" class="openProjectButton" onclick="getProjects()" alt="Select Project" /></td></tr>
         <tr><td class="row-header">Active Mode:</td> <td id="activeMode2"></td><td><a href="/Modes" class="modesLink">Modes</a></td></tr>
         <tr><td class="row-header">Active Elements:</td> <td class="elementsTitle" id="elementsParent"><span class="elements" id="activeElements2"></span></td><td><a href="/Elements" class="elementsLink">Elements</a></td></tr>
         <tr><td class="row-header">Current Music:</td> <td class="musicTitle" id="musicParent"><span class="musicTitle" id="currentMusic"></span></td><td><a href="/Playlist" class="playListLink">Playlist</a></td></tr>

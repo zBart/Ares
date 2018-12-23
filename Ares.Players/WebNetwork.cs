@@ -1242,7 +1242,11 @@ namespace Ares.Players.Web
 
         private void Subscribed(IEventSubscription es)
         {
-            mSubscriptions.Add(es);
+            lock (mSubscriptions)
+            {
+                mSubscriptions.Add(es);
+            }
+
             Messages.AddMessage(MessageType.Debug, "WebClient subscribed: " + es.DisplayName);
             EventsSender.Instance.StartSenderThread();
             if (InfoSender == null)
@@ -1255,14 +1259,17 @@ namespace Ares.Players.Web
 
         private void Unsubscribed(IEventSubscription es)
         {
-            mSubscriptions.Remove(es);
-            Messages.AddMessage(MessageType.Debug, "WebClient unsubscribed: " + es.DisplayName);
-            if (mSubscriptions.Count == 0)
+            lock (mSubscriptions)
             {
-                Ares.Playing.PlayingModule.RemoveCallbacks(InfoSender);
-                EventsSender.Instance.StopSenderThread();
-                InfoSender = null;
-                mNetworkClient.ClientDataChanged(false);
+                mSubscriptions.Remove(es);
+                Messages.AddMessage(MessageType.Debug, "WebClient unsubscribed: " + es.DisplayName);
+                if (mSubscriptions.Count == 0)
+                {
+                    Ares.Playing.PlayingModule.RemoveCallbacks(InfoSender);
+                    EventsSender.Instance.StopSenderThread();
+                    InfoSender = null;
+                    mNetworkClient.ClientDataChanged(false);
+                }
             }
         }
 

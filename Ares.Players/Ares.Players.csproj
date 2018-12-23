@@ -121,24 +121,29 @@
     <Compile Include="WebNetwork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="web\vendor\css\bootstrap-grid.css" />
+    <Content Include="web\vendor\css\bootstrap-reboot.css" />
+    <Content Include="web\vendor\css\bootstrap.css" />
+    <Content Include="web\vendor\js\bootstrap.bundle.js" />
+    <Content Include="web\vendor\js\bootstrap.js" />
+    <Content Include="web\vendor\js\jquery-3.3.1.js" />
+    <Content Include="web\vendor\js\popper.js" />
+    <Content Include="web\vendor\js\ss-utils.js" />
     <None Include="App.config" />
-    <Content Include="Images\gear.png">
+    <Content Include="web\image\gear.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Control.cshtml" />
     <Content Include="Views\Control.de.cshtml" />
     <Content Include="Views\Elements.cshtml" />
     <Content Include="Views\Elements.de.cshtml" />
-    <Content Include="Views\jquery.mobile-1.4.5.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\Modes.cshtml" />
     <Content Include="Views\Playlist.cshtml" />
     <Content Include="Views\Playlist.de.cshtml" />
     <Content Include="Views\Projects.cshtml" />
     <Content Include="Views\Projects.de.cshtml" />
     <Content Include="Views\Settings.de.cshtml" />
-    <None Include="Views\Slider.less" />
+    <None Include="web\css\Slider.less" />
     <Content Include="Views\Tags.cshtml" />
     <Content Include="Views\Tags.de.cshtml" />
     <Content Include="Views\_Layout.cshtml" />
@@ -173,96 +178,94 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\back.png">
+    <Content Include="web\image\back.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\backarea.png">
+    <Content Include="web\image\backarea.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\back_pressed.png">
+    <Content Include="web\image\back_pressed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\forward.png">
+    <Content Include="web\image\forward.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\forward_pressed.png">
+    <Content Include="web\image\forward_pressed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\greenlight.png">
+    <Content Include="web\image\greenlight.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\hout-active.png">
+    <Content Include="web\image\hout-active.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\hout-hover.png">
+    <Content Include="web\image\hout-hover.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\hout.png">
+    <Content Include="web\image\hout.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\open.png">
+    <Content Include="web\image\open.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\open_pressed.png">
+    <Content Include="web\image\open_pressed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\redlight.png">
+    <Content Include="web\image\redlight.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\repeat_off.png">
+    <Content Include="web\image\repeat_off.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\repeat_on.png">
+    <Content Include="web\image\repeat_on.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\repeat_pressed.png">
+    <Content Include="web\image\repeat_pressed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\stop.png">
+    <Content Include="web\image\stop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\stop_pressed.png">
+    <Content Include="web\image\stop_pressed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Common.js">
+    <Content Include="web\js\Common.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Control.js">
+    <Content Include="web\js\Control.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Controller.css">
+    <Content Include="web\css\Controller.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Elements.js">
+    <Content Include="web\js\Elements.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\EventSource.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\jquery-2.1.1.min.js">
+    <Content Include="web\js\EventSource.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Modes.de.cshtml" />
-    <Content Include="Views\Modes.js">
+    <Content Include="web\js\Modes.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Playlist.js">
+    <Content Include="web\js\Playlist.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Projects.js">
+    <Content Include="web\js\Projects.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Settings.cshtml" />
-    <Content Include="Views\Settings.js">
+    <Content Include="web\js\Settings.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Slider.css">
+    <Content Include="web\css\Slider.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Tags.js">
+    <Content Include="web\js\Tags.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="ServiceStack.Razor.BuildTask\ServiceStack.Razor.BuildTask.targets" Condition="Exists('ServiceStack.Razor.BuildTask\ServiceStack.Razor.BuildTask.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
