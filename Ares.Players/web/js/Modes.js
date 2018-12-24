@@ -48,8 +48,6 @@ $(document).on('pagebeforehide', '#modes', function () {
     modeSource.close();
 });
 
-
-
 function selectMode_Modes(mode) {
     $.getJSON("selectMode?Title=" + mode, function (resp) { });
     $.mobile.pageContainer.pagecontainer("change", "/Elements", {});

@@ -546,6 +546,7 @@
                                 return;
                             }
                             $.ajax({
+                                mimeType: 'text/plain; charset=utf-8',
                                 type: "POST",
                                 url: opt.heartbeatUrl,
                                 data: null,

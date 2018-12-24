@@ -93,10 +93,13 @@
       <HintPath>..\Libraries\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Razor.Unofficial">
       <HintPath>..\Libraries\System.Web.Razor.Unofficial.dll</HintPath>
     </Reference>
@@ -121,6 +124,8 @@
     <Compile Include="WebNetwork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="web\css\app.css" />
+    <Content Include="web\vendor\css\fontawesome-all.css" />
     <Content Include="web\vendor\css\bootstrap-grid.css" />
     <Content Include="web\vendor\css\bootstrap-reboot.css" />
     <Content Include="web\vendor\css\bootstrap.css" />
@@ -129,7 +134,12 @@
     <Content Include="web\vendor\js\jquery-3.3.1.js" />
     <Content Include="web\vendor\js\popper.js" />
     <Content Include="web\vendor\js\ss-utils.js" />
-    <None Include="App.config" />
+    <Content Include="web\vendor\webfonts\fa-brands-400.svg" />
+    <Content Include="web\vendor\webfonts\fa-regular-400.svg" />
+    <Content Include="web\vendor\webfonts\fa-solid-900.svg" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="web\image\gear.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -147,6 +157,18 @@
     <Content Include="Views\Tags.cshtml" />
     <Content Include="Views\Tags.de.cshtml" />
     <Content Include="Views\_Layout.cshtml" />
+    <None Include="web\vendor\webfonts\fa-brands-400.eot" />
+    <None Include="web\vendor\webfonts\fa-brands-400.ttf" />
+    <None Include="web\vendor\webfonts\fa-brands-400.woff" />
+    <None Include="web\vendor\webfonts\fa-brands-400.woff2" />
+    <None Include="web\vendor\webfonts\fa-regular-400.eot" />
+    <None Include="web\vendor\webfonts\fa-regular-400.ttf" />
+    <None Include="web\vendor\webfonts\fa-regular-400.woff" />
+    <None Include="web\vendor\webfonts\fa-regular-400.woff2" />
+    <None Include="web\vendor\webfonts\fa-solid-900.eot" />
+    <None Include="web\vendor\webfonts\fa-solid-900.ttf" />
+    <None Include="web\vendor\webfonts\fa-solid-900.woff" />
+    <None Include="web\vendor\webfonts\fa-solid-900.woff2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ares.Data\Ares.Data.csproj">

@@ -1,18 +1,4 @@
-﻿
-body {
-    background-color:#FFFFEC !important;
-    background-image:url(/web/image/backarea.png) !important;
-    margin:0px;
-    margin-left:0.83em;
-    color:#000000 !important;
-  }
-
-div {
-    background-color:#FFFFEC !important;
-    background-image:url(/web/image/backarea.png) !important;
-}
-
-hr {
+﻿hr {
     color:#A3551A;
     background-color:#A3551A;
     border:#A3551A;
@@ -23,35 +9,9 @@ hr {
     margin-left: 1.7em;
 }
 
-a:link {
-    color:#0000FF !important;
-  }
-
-
-a:visited {
-    color:#0000FF !important;
-  }
-
-
-a:active {
-    color:#00FFFF !important;
-  }
-
 ul.ohne {
     list-style-type:none;
   }
-
-p,h4,td,ul,li,div,b,i {
-    font-family:sans-serif,Arial !important;
-    font-size:12pt !important;
-  }
-
-
-h1,h2,h3,h4 {
-    font-family:sans-serif,Arial !important;
-    color:#005C16 !important;
-  }
-
 
 h1 {
     font-size:18pt;
@@ -59,27 +19,8 @@ h1 {
     text-align:center;
   }
 
-div.aresheader {
-    display: table;
-    margin-right: 0.83em;
-}
-
 input[type=range].volumeRange {
     width: 10em;
-}
-
-div.aresheader2 {
-    display: table-cell !important;
-    vertical-align: bottom !important;
-    white-space: nowrap;
-}
-
-div.aresheader3 {
-    display: table-cell !important;
-    vertical-align: bottom !important;
-    width: 100%;
-    text-align:right;
-    white-space: nowrap;
 }
 
 h2 {
@@ -272,16 +213,6 @@ li.playlist {
     margin-bottom: 0.83em;
 }
 
-div.control, div.modes, div.elements, div.inlinePlaylist {
-    margin-left: 0em;
-    padding: 0.83em;
-}
-
-div.ui-content {
-    clear: both;
-    margin-top: 0em;
-}
-
 div.inlinePlaylist {
     display:none;
 }
@@ -389,101 +320,4 @@ span.animation2 {
  -webkit-transform: translateX(-100%); /* Browser bug fix */
  transform: translateX(-100%); 
  }
-}
-
-/* small height and portrait: only control */
-@media screen and (max-height: 50.9em) and (max-aspect-ratio: 99/100) {
-    div.control { display: block; float:none; }
-    div.modes { display: none; }
-    hr.controlModes { display: none; }
-    div.elements { display: none; }
-    hr.modesElements { display: none; }
-    a.elementsLink { display: inline; }
-    a.modesLink { display: inline; }
-    a.playListLink { display: inline;}
-}
-
-/* medium height and portrait and small width: control, modes below */
-@media screen and (min-height: 51em) and (max-height: 99.9em) and (max-width: 36.9em) and (max-aspect-ratio: 99/100) {
-    div.control { display: block; float:none; }
-    div.modes { float: none; display: block; }
-    hr.controlModes { float:none; display: block; }
-    div.elements { display: none; }
-    hr.modesElements { display: none; }
-    a.elementsLink { display: inline; }
-    a.modesLink { display: none; }
-    a.playListLink { display: none;}
-}
-
-/* small to medium height and portrait and wide enough: control, modes to the right */
-@media screen and (max-height: 56.5em) and (min-width: 37em) and (max-aspect-ratio: 99/100) {
-    div.control { float: left; }
-    div.modes { display: block; }
-    hr.controlModes { float:none; display: none; }
-    div.elements { display: none; }
-    hr.modesElements { display: none; }
-    a.elementsLink { display: inline; }
-    a.modesLink { display: none; }
-    a.playListLink { display: none;}
-}
-
-/* large enough height and portrait and wide enough: control, modes to the right, elements below */
-@media screen and (min-height: 56.6em) and (min-width: 37em) and (max-aspect-ratio: 99/100) {
-    div.control { float: left; }
-    div.modes { display: block; }
-    hr.controlModes { float:none; display: none; }
-    div.elements { display: block; float: none; }
-    hr.modesElements { display: block; float:none;  clear: both; }
-    a.elementsLink { display: none; }
-    a.modesLink { display: none; }
-    a.playListLink { display: none;}
-}
-
-/* large height and portrait and small width: control, modes below, elements below */
-/* note: needs a very large screen in portrait mode */
-@media screen and (min-height: 60em) and (max-width: 36.9em) and (max-aspect-ratio: 99/100) {
-    div.control { display: block; float:none; }
-    div.modes { display: block; }
-    div.elements { float: none; display: block; }
-    hr.modesElements { float:none; display: block; }
-    hr.controlModes { float: none; display: block; }
-    a.elementsLink { display: none; }
-    a.modesLink { display: none; }
-    a.playListLink { display: none;}
-}
-
-/* landscape and small width: only control */
-@media screen and (max-width: 36.9em) and (min-aspect-ratio: 1/1) {
-    div.control { display: block; float:none; }
-    div.modes { display: none; }
-    hr.controlModes { display: none; }
-    div.elements { display: none; }
-    hr.modesElements { display: none; }
-    a.elementsLink { display: inline; }
-    a.modesLink { display: inline; }
-    a.playListLink { display: inline;}
-}
-
-/* landscape and medium width: control and modes to the right */
-@media screen and (min-width: 37em) and (max-width: 54.9em) and (min-aspect-ratio: 1/1) {
-    div.control { float: left; }
-    div.modes { display: block; }
-    hr.controlModes { display: none; }
-    div.elements { display: none; }
-    hr.modesElements { display: none; }
-    a.elementsLink { display: inline; }
-    a.modesLink { display: none; }
-    a.playListLink { display: none;}
-}
-
-/* landscape and wide enough: control, modes to the right, elements to the right */
-@media screen and (min-width: 55em) and (min-aspect-ratio: 1/1) {
-    div.control { float: left; }
-    div.modes { float: left; display: block; width: 13em; padding-right: 1.7em; }
-    hr.controlModes { display: none; }
-    div.elements { display: block; width: 100%; }
-    hr.modesElements { display: none; }
-    a.elementsLink { display: none; }
-    a.modesLink { display: none; }
-    a.playListLink { display: none;}
 }

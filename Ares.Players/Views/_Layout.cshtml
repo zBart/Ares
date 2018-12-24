@@ -1,33 +1,64 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>Ares Controller</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta charset="utf-8"/>
-        
-        <link rel="stylesheet" href="/web/css/Controller.css" type="text/css"/>
-        <link rel="stylesheet" href="/web/css/Slider.css" type="text/css"/>
+        <link rel="stylesheet" href="/web/vendor/css/bootstrap.css" type="text/css">
+        <link rel="stylesheet" href="/web/vendor/css/fontawesome-all.css" type="text/css">
+        <link rel="stylesheet" href="/web/css/app.css" type="text/css">
+        @* <link rel="stylesheet" href="/web/css/Controller.css" type="text/css"> *@
+        @* <link rel="stylesheet" href="/web/css/Slider.css" type="text/css"> *@
+
+        <title>Ares Controller</title>
     </head>
-    <body>
-        <div data-role="page" id="@Model.PageId">
-            <div data-role="none" class="aresheader">
-                <div class="aresheader2">
-                    <h2>Ares Controller</h2>
+    <body class="bg-light">
+        <header class="mb-3">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <a class="navbar-brand" href="/">Ares</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Control">Controller</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Tags">Tags</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Modes">Modes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Elements">Elements</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Playlist">Playlist</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item d-none">
+                            <a class="nav-link" href="/GetProjects">
+                                <i class="fas fa-folder-open"></i> <span id="loaded-project"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Settings?SourcePage=@Model.PageLink">
+                                <i class="fas fa-cog"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="aresheader3">
-                    <img src="/web/image/gear.png" alt="Settings" onclick="showSettings('@Model.PageLink')"/>
-                </div>
-            </div>
-            <div role="main" class="ui-content">
-                <div class="container">
-                    @RenderBody()
-                </div>
-            </div>
+            </nav>
+        </header>
+
+        <div id="@Model.PageId">
+            @RenderBody()
         </div>
-        
+
         <!-- Scripts -->
-        @* <script src="/web/js/jquery-2.1.1.min.js"></script> *@
         <script src="/web/vendor/js/jquery-3.3.1.js"></script>
         <script src="/web/vendor/js/popper.js"></script>
         <script src="/web/vendor/js/bootstrap.bundle.js"></script>
@@ -36,7 +67,7 @@
         <script src="/web/js/EventSource.js"></script>
 
         <script src="/web/js/Common.js"></script>
-        <script src="/web/js/Control.js"></script>
+
         <script src="/web/js/Elements.js"></script>
         <script src="/web/js/Tags.js"></script>
         <script src="/web/js/Modes.js"></script>

@@ -1,70 +1,79 @@
 ﻿@inherits ServiceStack.Razor.ViewPage<Ares.Players.Web.ControlResponse>
 
-<div class="control">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3">
+            <p class="text-center">
+                <button class="btn btn-primary" onclick="stopAll()" title="Stop all"><i class="fas fa-stop"></i></button>
+                <button class="btn btn-primary" onclick="back()" title="Back"><i class="fas fa-step-backward"></i></button>
+                <button class="btn btn-primary" onclick="forward()" title="Forward"><i class="fas fa-step-forward"></i></button>
+                <button class="btn btn-primary" onclick="repeatOn()" id="repeatButton" title="Repeat"><i class="fas fa-redo"></i></button>
+            </p>
+            
+            <hr/>
+            
+            <div class="form-group">
+                <label for="volume-range-overall">Overall volume</label>
+                <input type="range" class="form-control-range" id="volume-range-overall" min="0" max="100" onChange="changeVolume(2, this.value)">
+            </div>
+         
+            <div class="form-group">
+                <label for="volume-range-music">Music volume</label>
+                <input type="range" class="form-control-range" id="volume-range-music" min="0" max="100" onchange="changeVolume(1, this.value)">
+            </div>
+            
+            <div class="form-group">
+                <label for="volume-range-sounds">Sound volume</label>
+                <input type="range" class="form-control-range" id="volume-range-sounds" min="0" max="100" onchange="changeVolume(0, this.value)">
+            </div>
+            
+            <hr/>
+            
+            <p>
+                <strong>Music</strong><br/>
+                <span class="text-truncate"><span id="currentMusic"></span>&nbsp;</span>
+            </p>
+            
+            <p>
+                <strong>Active elements</strong><br/>
+                <span class="elements" id="activeElements2"></span>
+            </p>
+        </div>
 
-    <h4>Control</h4>
+        <div class="col-lg-3">
+            <h4>Modes</h4>
 
-    <p>
-        <img src="/web/image/stop.png" onmousedown="switchImg(this, '/web/image/stop_pressed.png')" onmouseup="switchImg(this, '/web/image/stop.png')" class="stopButton" onclick="stopAll()" alt="Stop" />
-        <img src="/web/image/back.png" onmousedown="switchImg(this, '/web/image/back_pressed.png')" onmouseup="switchImg(this, '/web/image/back.png')" class="backButton" onclick="back()" alt="Back" />
-        <img src="/web/image/forward.png" onmousedown="switchImg(this, '/web/image/forward_pressed.png')" onmouseup="switchImg(this, '/web/image/forward.png')" class="forwardButton" onclick="forward()" alt="Forward" />
-        <img src="/web/image/repeat_off.png" onmousedown="switchImg(this, '/web/image/repeat_pressed.png')" onmouseup="switchImg(this, '/web/image/repeat_off.png')" class="repeatButtonUnchecked" onclick="repeatOn()" alt="Repeat (off)" id="repeatButton" />
-    </p>
+            <div id="modeSelection2" class="list-group">
 
-    <h4>Volume</h4>
+            </div>
 
-    <table class="volumeTable">
-        <tr><td>Overall Volume:</td><td><input type="range" class="volumeRange" min="0" max="100" onChange="changeVolume(2, this.value)" id="overallValueSlider" data-role="none" /></td></tr>
-        <tr><td>Music Volume:  </td><td><input type="range" class="volumeRange" min="0" max="100" onchange="changeVolume(1, this.value)" id="musicValueSlider" data-role="none" />  </td></tr>
-        <tr><td>Sounds Volume: </td><td><input type="range" class="volumeRange" min="0" max="100" onchange="changeVolume(0, this.value)" id="soundsValueSlider" data-role="none" /> </td></tr>
-    </table>
+            <hr>
 
-    <h4>State</h4>
+            <ul class="modeTriggers">
+                <li class="modeTrigger">
+                    <input type="button" onclick="switchToPlaylist()" class="modeButton" value="Playlist">
+                </li>
+            </ul>
+        </div>
 
-    <table class="stateTable">
-        <tr><td class="row-header">Loaded Project:</td> <td id="loadedProject"></td><td><img src="/web/image/open.png" onmousedown="switchImg(this, '/web/image/open_pressed.png')" onmouseup="switchImg(this, '/web/image/open.png')" class="openProjectButton" onclick="getProjects()" alt="Select Project" /></td></tr>
-        <tr><td class="row-header">Active Mode:</td> <td id="activeMode2"></td><td><a href="/Modes" class="modesLink">Modes</a></td></tr>
-        <tr><td class="row-header">Active Elements:</td> <td class="elementsTitle" id="elementsParent"><span class="elements" id="activeElements2"></span></td><td><a href="/Elements" class="elementsLink">Elements</a></td></tr>
-        <tr><td class="row-header">Current Music:</td> <td class="musicTitle" id="musicParent"><span class="musicTitle" id="currentMusic"></span></td><td><a href="/Playlist" class="playListLink">Playlist</a></td></tr>
-    </table>
+        <div class="col-lg-6">
+            <div class="elements" id="elements">
+                <h4>Elements</h4>
+                
+                <div class="container-fluid p-1">
+                    <div class="row m-n1" id="elements-container">
 
+                    </div>
+                </div>
+            </div>
+
+            <div class="inlinePlaylist" id="inlinePlaylist">
+                <h4>Current Playlist</h4>
+
+                <ul class="playlist">
+                    <span id="playlistList"></span>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-
-<hr class="controlModes"/>
-
-<div class="modes">
-
-<h4>Modes</h4>
-
-    <ul id="modeSelection2" class="modeTriggers"></ul>
-
-<hr />
-
-    <ul class="modeTriggers" id="specialModeTriggers">
-        <li class="modeTrigger"><input type="button" onclick="switchToPlaylist()" class="modeButton" value="Playlist" data-role="none" /></li>
-        <li class="modeTrigger"><input type="button" onclick="switchToTags()" class="modeButton" value="Tags" data-role="none" /></li>
-    </ul>
-
-</div>
-
-<hr class="modesElements" />
-
-<div class="elements" id="elements">
-
-    <h4>Elements</h4>
-
-    <ul id="elementsSelection2" class="triggers"></ul>
-
-</div>
-
-<div class="inlinePlaylist" id="inlinePlaylist">
-
-    <h4>Current Playlist</h4>
-
-    <ul class="playlist">
-        <span id="playlistList"></span>
-    </ul>
-
-</div>
-
-<div id="language" hidden="hidden" class="en" />

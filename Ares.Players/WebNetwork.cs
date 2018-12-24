@@ -28,6 +28,7 @@ using ServiceStack.Razor.Managers;
 using ServiceStack.Web;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Ares.Data;
 using Ares.Playing;
 using Ares.Settings;
@@ -472,7 +473,13 @@ namespace Ares.Players.Web
     public class NewProjectInfo
     {
         public String Name { get; set; }
-        public List<String> Modes { get; set; }
+        public List<ModeData> Modes { get; set; }
+    }
+        
+    public class ModeData
+    {
+        public String Name { get; set; }
+        public List<ElementTrigger> Elements { get; set; }
     }
 
     public class VolumeInfo
@@ -852,10 +859,18 @@ namespace Ares.Players.Web
         public void InformClientOfProject(Data.IProject newProject)
         {
             mActiveProject = newProject;
-            List<String> modes = new List<string>();
+            List<ModeData> modes = new List<ModeData>();
             if (newProject != null)
             {
-                foreach (var mode in newProject.GetModes()) modes.Add(mode.Title);
+                foreach (var mode in newProject.GetModes())
+                {
+                    List<ElementTrigger> elements = mode.GetElements()
+                        .Select(element => new ElementTrigger {Id = element.Id, IsActive = false, Name = element.Title})
+                        .ToList();
+
+                    modes.Add(new ModeData() { Name = mode.Title, Elements = elements });
+                }
+
                 DoNotifyAll(new NewProjectInfo() { Name = newProject.Title, Modes = modes });
             }
             else
