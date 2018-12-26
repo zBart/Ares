@@ -813,7 +813,7 @@ namespace Ares.Players.Web
                     mActiveCategory = defaultCategory;
                 }
 
-                DoNotifyChannel("Tags", new TagInfo() { ActiveCategory = mActiveCategory, Categories = categoryList, TagsPerCategory = tags });
+                DoNotifyChannel("interface", new TagInfo() { ActiveCategory = mActiveCategory, Categories = categoryList, TagsPerCategory = tags });
             }
             catch (Ares.Tags.TagsDbException ex)
             {
@@ -839,7 +839,7 @@ namespace Ares.Players.Web
                 var infoList = dbRead.GetTagInfos(tagIds);
                 var activeTags = new List<ElementTrigger>();
                 foreach (var info in infoList) activeTags.Add(new ElementTrigger { Id = info.Id, Name = info.Name, IsActive = true });
-                DoNotifyChannel("Tags", new ActiveTagInfo() { Tags = activeTags, CategoryCombination = (int)categoryCombination, FadeTime = fadeTime });
+                DoNotifyChannel("interface", new ActiveTagInfo() { Tags = activeTags, CategoryCombination = (int)categoryCombination, FadeTime = fadeTime });
             }
             catch (Ares.Tags.TagsDbException ex)
             {
@@ -851,7 +851,7 @@ namespace Ares.Players.Web
         {
             mFadeTime = fadeTime;
             mFadeOnlyOnChange = fadeOnlyOnChange;
-            DoNotifyChannel("Tags", new TagFadingInfo() { FadeOnlyOnChange = fadeOnlyOnChange, FadeTime = fadeTime });
+            DoNotifyChannel("interface", new TagFadingInfo() { FadeOnlyOnChange = fadeOnlyOnChange, FadeTime = fadeTime });
         }
 
         private Data.IProject mActiveProject = null;
@@ -907,8 +907,7 @@ namespace Ares.Players.Web
                 for (int i = 0; i < mActiveElements[id]; ++i)
                     activeElements.Add(new ElementTrigger { Id = id, IsActive = true, Name = Data.DataModule.ElementRepository.GetElement(id).Title });
             }
-            DoNotifyChannel("Control", new ActiveElementsInfo { Triggers = activeElements });
-            DoNotifyChannel("Elements", new ActiveElementsInfo { Triggers = activeElements });
+            DoNotifyChannel("interface", new ActiveElementsInfo { Triggers = activeElements });
         }
 
         private int mActiveMusicListId = -1;
@@ -933,8 +932,7 @@ namespace Ares.Players.Web
                     titles.Add(fileElement.Title);
                 }
             }
-            DoNotifyChannel("Playlist", new MusicListInfo { Ids = ids, Titles = titles });
-            DoNotifyChannel("Control", new MusicListInfo { Ids = ids, Titles = titles });
+            DoNotifyChannel("interface", new MusicListInfo { Ids = ids, Titles = titles });
         }
 
         private int mTagLanguageId;
@@ -945,8 +943,7 @@ namespace Ares.Players.Web
             InformClientOfVolume(Playing.VolumeTarget.Both, overallVolume);
             InformClientOfVolume(Playing.VolumeTarget.Music, musicVolume);
             InformClientOfVolume(Playing.VolumeTarget.Sounds, soundVolume);
-            DoNotifyChannel("Control", new MusicInfo { LongTitle = music.LongTitle, ShortTitle = music.ShortTitle });
-            DoNotifyChannel("Playlist", new MusicInfo { LongTitle = music.LongTitle, ShortTitle = music.ShortTitle });
+            DoNotifyChannel("interface", new MusicInfo { LongTitle = music.LongTitle, ShortTitle = music.ShortTitle });
             mActiveElements.Clear();
             foreach (var element in elements)
                 SetElementActive(element.Id);
@@ -969,7 +966,7 @@ namespace Ares.Players.Web
 
         public void InformClientOfVolume(Ares.Playing.VolumeTarget target, int value)
         {
-            DoNotifyChannel("Control", new VolumeInfo { Id = (int)target, Value = value });
+            DoNotifyChannel("interface", new VolumeInfo { Id = (int)target, Value = value });
         }
 
         public void InformClientOfFading(int fadeTime, bool fadeOnlyOnChange)
@@ -979,7 +976,7 @@ namespace Ares.Players.Web
 
         public void InformClientOfImportProgress(int percent, String additionalInfo)
         {
-            DoNotifyChannel("Control", new ImportInfo { Percent = percent, AdditionalInfo = additionalInfo });
+            DoNotifyChannel("interface", new ImportInfo { Percent = percent, AdditionalInfo = additionalInfo });
         }
 
         private Data.IMode mActiveMode = null;
@@ -1011,24 +1008,20 @@ namespace Ares.Players.Web
                 if (element.IsVisibleInPlayer)
                     triggers.Add(new ElementTrigger { Id = element.Id, Name = element.Title, IsActive = mActiveElements.ContainsKey(element.Id) });
             }
-            DoNotifyChannel("Control", new ModeInfo { Title = mode.Title, Triggers = triggers });
-            DoNotifyChannel("Modes", new ModeInfo { Title = mode.Title, Triggers = triggers });
-            DoNotifyChannel("Elements", new ModeInfo { Title = mode.Title, Triggers = triggers });
+            DoNotifyChannel("interface", new ModeInfo { Title = mode.Title, Triggers = triggers });
         }
 
         public void ModeElementStarted(Data.IModeElement element)
         {
             SetElementActive(element.Id);
-            DoNotifyChannel("Control", new ElementTrigger { Id = element.Id, Name = element.Title, IsActive = true });
-            DoNotifyChannel("Elements", new ElementTrigger { Id = element.Id, Name = element.Title, IsActive = true });
+            DoNotifyChannel("interface", new ElementTrigger { Id = element.Id, Name = element.Title, IsActive = true });
             InformOfActiveElements();
         }
 
         public void ModeElementFinished(Data.IModeElement element)
         {
             bool isActive = SetElementInactive(element.Id);
-            DoNotifyChannel("Control", new ElementTrigger { Id = element.Id, Name = element.Title, IsActive = isActive });
-            DoNotifyChannel("Elements", new ElementTrigger { Id = element.Id, Name = element.Title, IsActive = isActive });
+            DoNotifyChannel("interface", new ElementTrigger { Id = element.Id, Name = element.Title, IsActive = isActive });
             InformOfActiveElements();
         }
 
@@ -1043,14 +1036,12 @@ namespace Ares.Players.Web
         public void MusicStarted(int elementId)
         {
             var info = Ares.Players.MusicInfo.GetInfo(elementId);
-            DoNotifyChannel("Control", new MusicInfo { LongTitle = info.LongTitle, ShortTitle = info.ShortTitle });
-            DoNotifyChannel("Playlist", new MusicInfo { LongTitle = info.LongTitle, ShortTitle = info.ShortTitle });
+            DoNotifyChannel("interface", new MusicInfo { LongTitle = info.LongTitle, ShortTitle = info.ShortTitle });
         }
 
         public void MusicFinished(int elementId)
         {
-            DoNotifyChannel("Control", new MusicInfo { LongTitle = String.Empty, ShortTitle = String.Empty });
-            DoNotifyChannel("Playlist", new MusicInfo { LongTitle = String.Empty, ShortTitle = String.Empty });
+            DoNotifyChannel("interface", new MusicInfo { LongTitle = String.Empty, ShortTitle = String.Empty });
         }
 
         public void VolumeChanged(Playing.VolumeTarget target, int newValue)
@@ -1074,8 +1065,7 @@ namespace Ares.Players.Web
 
         public void MusicRepeatChanged(bool repeat)
         {
-            DoNotifyChannel("Control", new MusicRepeatInfo { Repeat = repeat });
-            DoNotifyChannel("Playlist", new MusicRepeatInfo { Repeat = repeat });
+            DoNotifyChannel("interface", new MusicRepeatInfo { Repeat = repeat });
         }
 
         private SettingsData mSettings = new SettingsData() { FadingOption = 0, FadingTime = 0, Language = "en", PlayMusicOnAllSpeakers = false };

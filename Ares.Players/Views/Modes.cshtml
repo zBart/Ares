@@ -1,16 +1,9 @@
-﻿@inherits ViewPage<ModesResponse>
+﻿@inherits ServiceStack.Razor.ViewPage<Ares.Players.Web.ModesResponse>
 
-<h4>Modes</h4>
-<table class="stateTable">
-    <tr><td>Loaded Project:</td> <td id="loadedProject_Modes"></td><td><img src="/web/image/open.png" onmousedown="switchImg(this, '/web/image/open_pressed.png')" onmouseup="switchImg(this, '/web/image/open.png')" class="openProjectButton" onclick="getProjects()" alt="Select Project" /></td></tr>
-    <tr><td>Active Mode:</td> <td id="activeMode_Modes"></td><td></td></tr>
-</table>
-<p>
-    <ul id="modeSelection_Modes" class="modeTriggers"></ul>
-</p>
+<div class="container-fluid">
+    <h4>Modes</h4>
 
-<hr />
+    <div id="modeSelection2" class="list-group">
 
-<p>
-    <a href="/Control">Control</a>   <a href="/Elements">Elements</a>   <a onclick="toPlaylist()" class="musicListLink">Playlist</a>   <a href="/Tags">Tags</a>
-</p>
+    </div>
+</div>

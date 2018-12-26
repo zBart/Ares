@@ -49,11 +49,11 @@
 
             <hr>
 
-            <ul class="modeTriggers">
-                <li class="modeTrigger">
-                    <input type="button" onclick="switchToPlaylist()" class="modeButton" value="Playlist">
-                </li>
-            </ul>
+            <div class="list-group">
+                <button class="list-group-item list-group-item-action" onclick="switchToPlaylist()">
+                    <span class="fas fa-list-ul"></span> Playlist<span class="badge badge-secondary"></span>
+                </button>
+            </div>
         </div>
 
         <div class="col-lg-6">
@@ -67,12 +67,11 @@
                 </div>
             </div>
 
-            <div class="inlinePlaylist" id="inlinePlaylist">
+            <div class="inlinePlaylist d-none" id="inlinePlaylist">
                 <h4>Current Playlist</h4>
 
-                <ul class="playlist">
-                    <span id="playlistList"></span>
-                </ul>
+                <div id="playlistList">
+                </div>
             </div>
         </div>
     </div>

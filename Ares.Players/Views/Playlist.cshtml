@@ -1,26 +1,13 @@
-﻿@inherits ViewPage<PlaylistResponse>
+﻿@inherits ServiceStack.Razor.ViewPage<Ares.Players.Web.PlaylistResponse>
 
-<h4>Music</h4>
+<div class="container-fluid">
+    <h4>Current Playlist</h4>
 
-<table class="stateTable">
-    <tr><td>Loaded Project:</td> <td id="loadedProject_PL"></td><td><img src="/web/image/open.png" onmousedown="switchImg(this, '/web/image/open_pressed.png')" onmouseup="switchImg(this, '/web/image/open.png')" class="openProjectButton" onclick="getProjects() alt="Select Project" /></td></td>
-    <tr><td>Current Music:</td> <td id="currentMusic_PL"></td><td><a href="/Tags">Tags</a></td></tr>
-</table>
+    <p>
+        <strong>Music</strong><br/>
+        <span class="text-truncate"><span id="currentMusic"></span>&nbsp;</span>
+    </p>
 
-<p>
-    <img src="/web/image/stop.png" onmousedown="switchImg(this, '/web/image/stop_pressed.png')" onmouseup="switchImg(this, '/web/image/stop.png')" class="stopButton" onclick="stopAll_PL()" alt="Stop" />
-    <img src="/web/image/back.png" onmousedown="switchImg(this, '/web/image/back_pressed.png')" onmouseup="switchImg(this, '/web/image/back.png')" class="backButton" onclick="back_PL()" alt="Back" />
-    <img src="/web/image/forward.png" onmousedown="switchImg(this, '/web/image/forward_pressed.png')" onmouseup="switchImg(this, '/web/image/forward.png')" class="forwardButton" onclick="forward_PL()" alt="Forward" />
-    <img src="/web/image/repeat_off.png" onmousedown="switchImg(this, '/web/image/repeat_pressed.png')" onmouseup="switchImg(this, '/web/image/repeat_off.png')" class="repeatButtonUnchecked" onclick="repeatOn_PL()" alt="Repeat (off)" id="repeatButton_PL" />
-</p>
-
-<hr />
-
-<ul class="playlist">
-    <span id="playlistList_PL"></span>
-</ul>
-
-<hr />
-<p>
-    <a href="/Control">Control</a> <a href="/Modes">Modes</a> <a href="/Elements">Elements</a> <a href="/Tags">Tags</a>
-</p>
+    <div id="playlistList">
+    </div>
+</div>
