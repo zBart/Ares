@@ -51,7 +51,7 @@ img.elementTriggerIndicator {
     top:0.58em;
 }
 
-.elementTriggerButton, .modeButton, .removeAllTagsButton, .submitRowButton {
+.elementTriggerButton, .modeButton, .submitRowButton {
   -webkit-box-shadow: 1px 1px 0px #706e70;
   -moz-box-shadow: 1px 1px 0px #706e70;
   box-shadow: 1px 0px 0px #706e70;
@@ -65,17 +65,17 @@ img.elementTriggerIndicator {
   background-image: url(/web/image/hout.png)
 }
 
-.elementTriggerButton:hover, .modeButton:hover, .removeAllTagsButton:hover, .submitRowButton:hover {
+.elementTriggerButton:hover, .modeButton:hover, .submitRowButton:hover {
   background: #db995e;
   text-decoration: none;
   background-image: url(/web/image/hout-hover.png)
 }
 
-.elementTriggerButton:focus, .modeButton:focus, .removeAllTagsButton:focus, .submitRowButton:focus {
+.elementTriggerButton:focus, .modeButton:focus, .submitRowButton:focus {
     outline:0;
 }
 
-.elementTriggerButton:active, .modeButton:active, .removeAllTagsButton:active, .submitRowButton:active {
+.elementTriggerButton:active, .modeButton:active, .submitRowButton:active {
   background: #db995e;
   border-top: solid #000000 1px;
   border-right: solid #ffffff 2px;

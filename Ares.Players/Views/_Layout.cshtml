@@ -2,7 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+        <link rel="manifest" href="/manifest.json">
 
         <link rel="stylesheet" href="/web/vendor/css/bootstrap.css" type="text/css">
         <link rel="stylesheet" href="/web/vendor/css/fontawesome-all.css" type="text/css">
@@ -13,8 +14,8 @@
         <title>Ares Controller</title>
     </head>
     <body class="bg-light">
-        <header class="mb-3">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <header class="mb-3 shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <a class="navbar-brand" href="/">Ares</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -39,10 +40,13 @@
                     </ul>
 
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item d-none">
+                        <li class="nav-item mx-1 d-none">
                             <a class="nav-link" href="/GetProjects">
                                 <i class="fas fa-folder-open"></i> <span id="loaded-project"></span>
                             </a>
+                        </li>
+                        <li class="nav-item mx-1">
+                            <button class="btn btn-danger" onclick="stopAll()" title="Stop all"><i class="fas fa-stop"></i> Stop all</button>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/Settings?SourcePage=@Model.PageLink">

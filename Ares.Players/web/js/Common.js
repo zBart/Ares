@@ -120,8 +120,8 @@
 
                 // Mark mode as active
                 var listItems = $('#modeSelection2 .list-group-item');
-                listItems.filter('.active').removeClass('active');
-                listItems.filter('[data-mode-id="' + msg.Title + '"]').addClass('active');
+                listItems.filter('.list-group-item-dark').removeClass('list-group-item-dark');
+                listItems.filter('[data-mode-id="' + msg.Title + '"]').addClass('list-group-item-dark');
 
                 //
                 var elementsContainer = $('#elements-container');
@@ -139,24 +139,44 @@
 
                     var listElement = $('<button></button');
                     listElement.attr('data-element-id', trigger.Id);
-                    listElement.addClass('btn btn-outline-primary btn-block text-left d-flex justify-content-between align-items-center');
-                    listElement.text(trigger.Name);
+                    listElement.attr('data-is-active', trigger.IsActive);
+                    listElement.addClass('btn btn-block text-left d-flex justify-content-between align-items-center btn-outline-secondary p-1');
                     listElement.click(function() {
                         $.getJSON("triggerElement?Id=" + $(this).data('element-id'), function(resp) {});
                     });
 
-                    var listElementIcon = $('<i></i>');
-                    listElementIcon.addClass('fas');
-                    listElementIcon.toggleClass('fa-volume-mute', !trigger.IsActive);
-                    listElementIcon.toggleClass('fa-volume-up', trigger.IsActive);
+                    var listElementName = $('<span></span>');
+                    listElementName.addClass('px-2 py-1');
+                    listElement.append(listElementName);
 
-                    var listElementIconWrapper = $('<span></span>');
-                    listElementIconWrapper.addClass('badge');
-                    listElementIconWrapper.toggleClass('badge-light', !trigger.IsActive);
-                    listElementIconWrapper.toggleClass('badge-success', trigger.IsActive);
+                    if (trigger.IsMacro) {
+	                    listElementName.append($('<i></i>').addClass('fas fa-cogs'));
+	                    listElementName.append(' ');
+                    } else {
+						var listElementIcon = $('<i></i>');
+	                    listElementIcon.addClass('fas');
 
-                    listElementIconWrapper.append(listElementIcon);
-                    listElement.append(listElementIconWrapper);
+	                    if (trigger.IsMusic) {
+		                    listElementName.append($('<i></i>').addClass('fas fa-music'));
+		                    listElementName.append(' ');
+
+		                    listElementIcon.toggleClass('fa-volume-mute', !trigger.IsActive);
+		                    listElementIcon.toggleClass('fa-volume-up', trigger.IsActive);
+	                    }
+                        
+	                    listElementIcon.toggleClass('fa-volume-mute', !trigger.IsActive);
+	                    listElementIcon.toggleClass('fa-volume-up', trigger.IsActive);
+
+	                    var listElementIconWrapper = $('<span></span>');
+	                    listElementIconWrapper.addClass('text-sm px-2 py-1 rounded');
+	                    listElementIconWrapper.toggleClass('text-light', trigger.IsActive);
+	                    listElementIconWrapper.toggleClass('bg-success', trigger.IsActive);
+
+	                    listElementIconWrapper.append(listElementIcon);
+	                    listElement.append(listElementIconWrapper);
+                    }
+
+                    listElementName.append(trigger.Name);
                     listElementWrapper.append(listElement);
                     elementsContainer.append(listElementWrapper);
                 }
@@ -169,51 +189,88 @@
                 console.log('ActiveElementsInfo', msg);
                 
                 var elementsContainer = $('#elements-container');
+
+                // Clear the active number of elements in the modes list
                 var listItems = $('#modeSelection2 .list-group-item[data-mode-id]');
                 $('.badge', listItems).text('');
 
-                // Remove all
-                $('.fa-volume-up', elementsContainer)
+                // Reset the playing / not playing element indicators
+                var activeElements = $('[data-is-active="true"]', elementsContainer);
+                activeElements.attr('data-is-active', false);
+
+                $('.fa-volume-up', activeElements)
                     .removeClass('fa-volume-up')
                     .addClass('fa-volume-mute')
                     .parent()
-                    .removeClass('badge-success')
-                    .addClass('badge-light');
+                    .removeClass('text-light')
+                    .removeClass('bg-success');
 
                 var modesWithActive = {};
 
-                var activeList = getElementById("activeElements2");
+                var activeList = $('#activeElements2');
                 if (activeList != null) {
-                    var activeListText = "";
-                    for (var i = 0; i < msg.Triggers.length; ++i) {
-                        $('[data-element-id="' + msg.Triggers[i].Id + '"] .fa-volume-mute', elementsContainer)
-                            .removeClass('fa-volume-mute')
-                            .addClass('fa-volume-up')
-                            .parent()
-                            .removeClass('badge-light')
-                            .addClass('badge-success');
+	                activeList.empty();
 
-                        activeListText += msg.Triggers[i].Name;
-                        if (i < msg.Triggers.length - 1)
-                            activeListText += ", ";
+                    if (msg.Triggers.length === 0) {
+	                    activeList.append($('<span></span>').addClass('text-muted').text('No active elements'));
+                    } else {
+	                    for (var i = 0; i < msg.Triggers.length; ++i) {
+		                    // Mark element as active
+		                    var targetElement = $('[data-element-id="' + msg.Triggers[i].Id + '"]', elementsContainer);
+		                    targetElement.attr('data-is-active', true);
 
-                        listItems.filter('[data-elements-' + msg.Triggers[i].Id + ']').each(function() {
-                            var modeId = $(this).data('mode-id');
+		                    $('.fa-volume-mute', targetElement)
+			                    .removeClass('fa-volume-mute')
+			                    .addClass('fa-volume-up')
+			                    .parent()
+			                    .addClass('text-light')
+			                    .addClass('bg-success');
 
-                            if (!modesWithActive[modeId]) {
-                                modesWithActive[modeId] = 0;
-                            }
+		                    listItems.filter('[data-elements-' + msg.Triggers[i].Id + ']').each(function() {
+			                    var modeId = $(this).data('mode-id');
 
-                            modesWithActive[modeId]++;
-                        });
+			                    if (!modesWithActive[modeId]) {
+				                    modesWithActive[modeId] = 0;
+			                    }
+
+			                    modesWithActive[modeId]++;
+		                    });
+                        
+		                    // Update the list
+		                    var activeElement = $('<button></button>');
+		                    activeElement.attr('data-element-id', msg.Triggers[i].Id);
+		                    activeElement.addClass('btn btn-outline-danger btn-sm m-1');
+
+		                    activeElement.click(function() {
+			                    $.getJSON("triggerElement?Id=" + $(this).data('element-id'), function(resp) {});
+		                    });
+
+		                    if (msg.Triggers[i].IsMusic) {
+			                    activeElement
+				                    .append($('<i></i>').addClass('fas fa-music'))
+				                    .append(' ');
+		                    }
+
+		                    activeElement.append(msg.Triggers[i].Name);
+
+		                    activeList.append(activeElement);
+	                    }
                     }
-
-                    activeList.innerHTML = activeListText;
                 }
+                
+                
+                $('#active-elements-count')
+	                .text(msg.Triggers.length)
+					.toggleClass('d-none', msg.Triggers.length === 0);
 
-                for (var mode in modesWithActive) {
-                    $('.badge', listItems.filter('[data-mode-id="' + mode + '"]')).text(modesWithActive[mode]);
-                }
+                listItems.each(function() {
+	                var self = $(this);
+	                var activeCount = self.data('mode-id') in modesWithActive
+		                ? modesWithActive[self.data('mode-id')]
+		                : 0; 
+
+                    $('.badge', self).text(activeCount > 0 ? activeCount : '');
+                });
             },
 
             /**
@@ -222,7 +279,14 @@
             MusicInfo: function(msg, e) {
                 console.log('MusicInfo', msg);
 
-                $('#currentMusic').text(msg.LongTitle);
+                var currentMusic = $('#currentMusic');
+                currentMusic.empty();
+
+                if (msg.LongTitle.length === 0) {
+	                currentMusic.append($('<span></span>').addClass('text-muted').text('No active music'));
+                } else {
+	                currentMusic.text(msg.LongTitle);
+                }
             },
 
             /**
@@ -238,17 +302,21 @@
                 }
 
                 musicList.empty();
+                
+                if (msg.Ids.length === 0) {
+	                musicList.append($('<span></span>').addClass('text-muted').text('No active music'));
+                } else {
+	                for (var i = 0; i < msg.Ids.length; ++i) {
+		                var newLink = $('<button></button');
+		                newLink.addClass('btn btn-link btn-block text-left');
+		                newLink.html('<i class="fas fa-play-circle"></i> ' + msg.Titles[i]);
+		                newLink.data('id', msg.Ids[i]);
+		                newLink.click(function() {
+			                $.getJSON('selectMusicElement?Id=' + $(this).data('id'), function(resp) {});
+		                });
 
-                for (var i = 0; i < msg.Ids.length; ++i) {
-                    var newLink = $('<button></button');
-                    newLink.addClass('btn btn-link btn-block text-left');
-                    newLink.html('<i class="fas fa-play-circle"></i> ' + msg.Titles[i]);
-                    newLink.data('id', msg.Ids[i]);
-                    newLink.click(function() {
-	                    $.getJSON("selectMusicElement?Id=" + $(this).data('id'), function(resp) {});
-                    });
-
-                    musicList.append(newLink);
+		                musicList.append(newLink);
+	                }
                 }
             },
 
@@ -259,10 +327,10 @@
                 var repeatButton = $('#repeatButton');
 
                 if (msg.Repeat) {
-                    repeatButton.addClass('active');
+                    repeatButton.addClass('active').find('.fa-slash').addClass('d-none');
                     repeatButton.unbind('click').click(repeatOff);
                 } else {
-                    repeatButton.removeClass('active');
+                    repeatButton.removeClass('active').find('.fa-slash').removeClass('d-none');
                     repeatButton.unbind('click').click(repeatOn);
                 }
             },
@@ -276,17 +344,72 @@
                 var categorySelect = $('#categorySelect');
 				categorySelect.empty();
 
-                for (var i = 0; i < msg.Categories.length; ++i) {
-                    var optionElement = $('<option></option>');
-                    optionElement.prop('selected', (msg.Categories[i].Id === msg.ActiveCategory));
-                    optionElement.prop('id', msg.Categories[i].Id);
-                    optionElement.text(msg.Categories[i].Name);
-                    categorySelect.append(optionElement);
+                var tagsContainer = $('#tagsContainer');
+                
+				if (!tagsContainer) {
+	                return;
                 }
 
-                if (msg.Categories.length > 0) {
-                    updateTags(msg.TagsPerCategory[msg.ActiveCategory]);
+				tagsContainer.empty();
+                
+				for (var i = 0; i < msg.Categories.length; ++i) {
+					tagsContainer.append($('<h4></h4>').text(msg.Categories[i].Name));
+
+					var tagContainer = $('<div></div>');
+					tagContainer.addClass('row mb-3 mx-n1');
+
+                    for (var j = 0; j < msg.TagsPerCategory[msg.Categories[i].Id].length; ++j) {
+	                    var trigger = msg.TagsPerCategory[msg.Categories[i].Id][j];
+						var listElementWrapper = $('<div></div>');
+	                    listElementWrapper.addClass('col-xl-3 col-md-6 p-1');
+
+	                    var listElement = $('<button></button');
+	                    listElement.attr('data-tag-id', trigger.Id);
+	                    listElement.attr('data-is-active', trigger.IsActive);
+	                    listElement.addClass('btn btn-block text-left d-flex justify-content-between align-items-center btn-outline-secondary p-1');
+	                    listElement.click(function() {
+	                        $.getJSON("switchTag?Id=" + $(this).data('tag-id'), function(resp) {});
+	                    });
+
+	                    var listElementName = $('<span></span>');
+	                    listElementName.addClass('px-2 py-1');
+	                    listElement.append(listElementName);
+
+	                    if (trigger.IsMacro) {
+		                    listElementName.append($('<i></i>').addClass('fas fa-cogs'));
+		                    listElementName.append(' ');
+	                    } else {
+							var listElementIcon = $('<i></i>');
+		                    listElementIcon.addClass('fas');
+
+		                    if (trigger.IsMusic) {
+			                    listElementName.append($('<i></i>').addClass('fas fa-music'));
+			                    listElementName.append(' ');
+
+			                    listElementIcon.toggleClass('fa-volume-mute', !trigger.IsActive);
+			                    listElementIcon.toggleClass('fa-volume-up', trigger.IsActive);
+		                    }
+	                        
+		                    listElementIcon.toggleClass('fa-volume-mute', !trigger.IsActive);
+		                    listElementIcon.toggleClass('fa-volume-up', trigger.IsActive);
+
+		                    var listElementIconWrapper = $('<span></span>');
+		                    listElementIconWrapper.addClass('text-sm px-2 py-1 rounded');
+		                    listElementIconWrapper.toggleClass('text-light', trigger.IsActive);
+		                    listElementIconWrapper.toggleClass('bg-success', trigger.IsActive);
+
+		                    listElementIconWrapper.append(listElementIcon);
+		                    listElement.append(listElementIconWrapper);
+	                    }
+
+	                    listElementName.append(trigger.Name);
+	                    listElementWrapper.append(listElement);
+	                    tagContainer.append(listElementWrapper);
+	                }
+
+	                tagsContainer.append(tagContainer);
                 }
+
             },
             
             /**
@@ -303,25 +426,32 @@
                 }
 
                 fadeTimeInput.val(msg.FadeTime);
+                
+                var tagsContainer = $('#tagsContainer');
+                
+                // Reset the playing / not playing element indicators
+                var activeElements = $('[data-is-active="true"]', tagsContainer);
+                activeElements.attr('data-is-active', false);
 
-                combineCombo.prop('selectedIndex', msg.CategoryCombination);
+                $('.fa-volume-up', activeElements)
+                    .removeClass('fa-volume-up')
+                    .addClass('fa-volume-mute')
+                    .parent()
+                    .removeClass('text-light')
+                    .removeClass('bg-success');
+                    
+				for (var i = 0; i < msg.Tags.length; ++i) {
+                    // Mark element as active
+                    var targetTag = $('[data-tag-id="' + msg.Tags[i].Id + '"]', tagsContainer);
+                    targetTag.attr('data-is-active', true);
 
-                var elementIndicatorList = document.getElementsByClassName("elementTriggerIndicator");
-                for (vi = 0; i < elementIndicatorList.length; ++i) {
-                    elementIndicatorList[i].src = "/web/image/redlight.png";
-                    elementIndicatorList[i].alt = "off";
+                    $('.fa-volume-mute', targetTag)
+	                    .removeClass('fa-volume-mute')
+	                    .addClass('fa-volume-up')
+	                    .parent()
+	                    .addClass('text-light')
+	                    .addClass('bg-success');
                 }
-
-                var activeList = $('#activeTags');
-                var activeListText = '';
-                for (var i = 0; i < msg.Tags.length; ++i) {
-                    updateTagElementIndicator(msg.Tags[i].Id, msg.Tags[i].IsActive);
-                    activeListText += msg.Tags[i].Name;
-                    if (i < msg.Tags.length - 1)
-                        activeListText += ', ';
-                }
-
-                activeList.html(activeListText);
             },
             
             /**
@@ -376,17 +506,44 @@ function repeatOff() {
     $.getJSON("mainControl?Command=RepeatOff", function(resp) {});
 }
 
+function stopActiveMode() {
+	$('#elements-container button[data-is-active="true"]').click();
+}
+
+function startActiveMode() {
+	$('#elements-container button[data-is-active="false"]').click();
+}
+
+function switchToTags() {
+	var tags = $('#tags');
+
+	if (!tags.hasClass('d-none')) {
+		return;
+	}
+
+	$('#modeSelection2 .list-group-item.list-group-item-dark').removeClass('list-group-item-dark');
+
+	$('#elements').addClass('d-none');
+	$('#inlinePlaylist').addClass('d-none');
+	tags.removeClass('d-none');
+    
+	$.getJSON("resendInfo?InfoId=TagInfo", function(resp) {});
+}
+
 function switchToPlaylist() {
 	var inlinePlaylist = $('#inlinePlaylist');
 
-    if (!inlinePlaylist.hasClass('d-none')) {
-	    return;
-    }
+	if (!inlinePlaylist.hasClass('d-none')) {
+		return;
+	}
 
-    $('#elements').addClass('d-none');
-    inlinePlaylist.removeClass('d-none');
+	$('#modeSelection2 .list-group-item.list-group-item-dark').removeClass('list-group-item-dark');
     
-    $.getJSON("resendInfo?InfoId=MusicList", function(resp) {});
+	$('#tags').addClass('d-none');
+	$('#elements').addClass('d-none');
+	inlinePlaylist.removeClass('d-none');
+    
+	$.getJSON("resendInfo?InfoId=MusicList", function(resp) {});
 }
 
 function switchToElements() {
@@ -395,7 +552,8 @@ function switchToElements() {
 	if (!elements.hasClass('d-none')) {
 		return;
 	}
-
+    
+	$('#tags').addClass('d-none');
 	$('#inlinePlaylist').addClass('d-none');
 	elements.removeClass('d-none');
 
@@ -423,32 +581,6 @@ function submitData_Settings(sourcePage) {
 	var onAllSpeakers = getElementById("allSpeakers").checked;
 	$.getJSON("changeSettings?PlayMusicOnAllSpeakers=" + onAllSpeakers + "&FadingOption=" + fadeOption + "&FadingTime=" + fadeTime + "&Language=" + lang);
 	$.mobile.pageContainer.pagecontainer("change", "/" + sourcePage, { reload: 'true' });
-}
-
-function updateTags(tagList) {
-    var elementsSelection = getElementById("elementsSelection");
-    if (!elementsSelection) return;
-    elementsSelection.innerHTML = "";
-    for (i = 0; i < tagList.length; ++i) {
-        var trigger = tagList[i];
-        var listElement = document.createElement('li');
-        listElement.setAttribute("class", "trigger");
-        var newTriggerIndicator = document.createElement('img');
-        newTriggerIndicator.setAttribute("id", "indicator" + trigger.Id);
-        newTriggerIndicator.setAttribute("class", "elementTriggerIndicator");
-        newTriggerIndicator.src = trigger.IsActive ? "/web/image/greenlight.png" : "/web/image/redlight.png";
-        listElement.appendChild(newTriggerIndicator);
-        var newTriggerButton = document.createElement('input');
-        newTriggerButton.type = "button";
-        newTriggerButton.onclick = function() {
-	        $.getJSON("switchTag?Id=" + this.id);
-        };
-        newTriggerButton.setAttribute("id", trigger.Id);
-        newTriggerButton.setAttribute("value", trigger.Name);
-        newTriggerButton.setAttribute("class", "elementTriggerButton");
-        listElement.appendChild(newTriggerButton);
-        elementsSelection.appendChild(listElement);
-    }
 }
 
 function updateTagElementIndicator(id, isActive) {

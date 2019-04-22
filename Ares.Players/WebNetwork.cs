@@ -17,6 +17,9 @@
  along with Ares; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+using Ares.Data;
+using Ares.Playing;
+using Ares.Settings;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Caching;
@@ -29,10 +32,6 @@ using ServiceStack.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ares.Data;
-using Ares.Playing;
-using Ares.Settings;
-using System.Web;
 
 namespace Ares.Players.Web
 {
@@ -164,6 +163,8 @@ namespace Ares.Players.Web
         public String Name { get; set; }
         public int Id { get; set; }
         public bool IsActive { get; set; }
+        public bool IsMacro { get; set; }
+        public bool IsMusic { get; set; }
     }
 
     public class VersionResponse
@@ -865,7 +866,14 @@ namespace Ares.Players.Web
                 foreach (var mode in newProject.GetModes())
                 {
                     List<ElementTrigger> elements = mode.GetElements()
-                        .Select(element => new ElementTrigger {Id = element.Id, IsActive = false, Name = element.Title})
+                        .Select(element => new ElementTrigger
+                        {
+                            Id = element.Id, 
+                            IsActive = false, 
+                            Name = element.Title, 
+                            IsMacro = element.StartElement is IMacro, 
+                            IsMusic = element.StartElement is IMusicList
+                        })
                         .ToList();
 
                     modes.Add(new ModeData() { Name = mode.Title, Elements = elements });
@@ -905,7 +913,18 @@ namespace Ares.Players.Web
             foreach (int id in mActiveElements.Keys)
             {
                 for (int i = 0; i < mActiveElements[id]; ++i)
-                    activeElements.Add(new ElementTrigger { Id = id, IsActive = true, Name = Data.DataModule.ElementRepository.GetElement(id).Title });
+                {
+                    IModeElement element = (IModeElement)Data.DataModule.ElementRepository.GetElement(id);
+                    
+                    activeElements.Add(new ElementTrigger
+                    {
+                        Id = element.Id,
+                        Name = element.Title, 
+                        IsActive = mActiveElements.ContainsKey(element.Id), 
+                        IsMacro = element.StartElement is IMacro, 
+                        IsMusic = element.StartElement is IMusicList
+                    });
+                }
             }
             DoNotifyChannel("interface", new ActiveElementsInfo { Triggers = activeElements });
         }
@@ -1005,9 +1024,21 @@ namespace Ares.Players.Web
             List<ElementTrigger> triggers = new List<ElementTrigger>();
             foreach (var element in mode.GetElements())
             {
-                if (element.IsVisibleInPlayer)
-                    triggers.Add(new ElementTrigger { Id = element.Id, Name = element.Title, IsActive = mActiveElements.ContainsKey(element.Id) });
+                if (!element.IsVisibleInPlayer)
+                {
+                    continue;
+                }
+                
+                triggers.Add(new ElementTrigger
+                {
+                    Id = element.Id,
+                    Name = element.Title, 
+                    IsActive = mActiveElements.ContainsKey(element.Id), 
+                    IsMacro = element.StartElement is IMacro, 
+                    IsMusic = element.StartElement is IMusicList
+                });
             }
+
             DoNotifyChannel("interface", new ModeInfo { Title = mode.Title, Triggers = triggers });
         }
 
@@ -1342,6 +1373,7 @@ namespace Ares.Players.Web
                 DebugMode = true,
                 WebHostPhysicalPath = "~/../../Ares.Players".MapServerPath(),
 #endif
+                AllowFileExtensions = { "json" },
                 DefaultRedirectPath = "/Control"
             });
         }

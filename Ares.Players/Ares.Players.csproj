@@ -153,10 +153,13 @@
     <Content Include="Views\Projects.cshtml" />
     <Content Include="Views\Projects.de.cshtml" />
     <Content Include="Views\Settings.de.cshtml" />
+    <None Include="manifest.json" />
     <None Include="web\css\Slider.less" />
     <Content Include="Views\Tags.cshtml" />
     <Content Include="Views\Tags.de.cshtml" />
-    <Content Include="Views\_Layout.cshtml" />
+    <Content Include="Views\_Layout.cshtml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="web\vendor\webfonts\fa-brands-400.eot" />
     <None Include="web\vendor\webfonts\fa-brands-400.ttf" />
     <None Include="web\vendor\webfonts\fa-brands-400.woff" />
